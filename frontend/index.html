@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宇树Go2-W机器狗控制平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐕 宇树Go2-W机器狗控制平台</h1>
+            <div class="status-indicator" id="statusIndicator">
+                <span class="status-dot"></span>
+                <span id="statusText">未连接</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="control-panel fade-in">
+                <h2>🎮 运动控制</h2>
+                <div class="joystick-container">
+                    <div class="joystick-grid">
+                        <div></div>
+                        <button class="control-btn" id="forwardBtn" title="前进">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                            </svg>
+                        </button>
+                        <div></div>
+                        <button class="control-btn" id="leftBtn" title="左转">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn" id="stopBtn" title="停止">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <rect x="6" y="6" width="12" height="12"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn" id="rightBtn" title="右转">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                            </svg>
+                        </button>
+                        <div></div>
+                        <button class="control-btn" id="backwardBtn" title="后退">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 20l1.41-1.41L7.83 13H20v-2H7.83l5.58-5.59L12 4l-8 8z"/>
+                            </svg>
+                        </button>
+                        <div></div>
+                    </div>
+                    <div style="margin-top: 15px; font-size: 12px; color: var(--text-secondary); text-align: center;">
+                        💡 提示：也可以使用键盘 W/A/S/D 或方向键控制
+                    </div>
+                </div>
+            </section>
+
+            <section class="robot-actions fade-in">
+                <h2>🤖 机器人动作</h2>
+                <div class="action-buttons">
+                    <button class="action-btn" id="standUpBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        站立
+                    </button>
+                    <button class="action-btn" id="standDownBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                        趴下
+                    </button>
+                    <button class="action-btn" id="recoveryBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                        </svg>
+                        恢复
+                    </button>
+                    <div class="speed-control">
+                        <label for="speedLevel">⚡ 速度等级:</label>
+                        <select id="speedLevel">
+                            <option value="1">1 - 慢速</option>
+                            <option value="2" selected>2 - 中速</option>
+                            <option value="3">3 - 快速</option>
+                        </select>
+                        <button class="action-btn" id="setSpeedBtn">设置</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="auto-functions fade-in">
+                <h2>🎯 自动化功能</h2>
+                <div class="auto-buttons">
+                    <button class="auto-btn" id="followBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        跟随模式
+                    </button>
+                    <button class="auto-btn" id="stopFollowBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                        停止跟随
+                    </button>
+                    <div class="navigation-control">
+                        <label for="navTarget">📍 导航目标:</label>
+                        <select id="navTarget">
+                            <option value="客厅">🏠 客厅</option>
+                            <option value="卧室">🛏️ 卧室</option>
+                            <option value="厨房">🍳 厨房</option>
+                        </select>
+                        <button class="auto-btn" id="navigateBtn">开始导航</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="camera-feed fade-in">
+                <h2>📹 摄像头画面</h2>
+                <div class="video-container">
+                    <video id="cameraVideo" autoplay playsinline></video>
+                    <button class="action-btn" id="startCameraBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                        </svg>
+                        开始摄像头
+                    </button>
+                    <button class="action-btn" id="stopCameraBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="6" width="12" height="12"/>
+                        </svg>
+                        停止摄像头
+                    </button>
+                </div>
+            </section>
+
+            <section class="voice-control fade-in">
+                <h2>🎤 语音控制</h2>
+                <div class="voice-container">
+                    <button class="voice-btn" id="startVoiceBtn">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+                        </svg>
+                        <span>按住说话</span>
+                    </button>
+                    <div class="voice-status" id="voiceStatus">
+                        点击按钮开始语音控制
+                    </div>
+                    <div class="voice-commands">
+                        <h3>💡 可用命令</h3>
+                        <ul>
+                            <li>导航到客厅/卧室/厨房</li>
+                            <li>跟随我 / 停止跟随</li>
+                            <li>前进 / 后退 / 左转 / 右转</li>
+                            <li>停止移动</li>
+                            <li>站立 / 趴下 / 恢复</li>
+                            <li>设置速度等级1/2/3</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="status-display fade-in">
+                <h2>📊 机器人状态</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="status-label">🎮 模式</span>
+                        <span class="status-value" id="modeValue">待机</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">📍 X位置 (m)</span>
+                        <span class="status-value" id="xValue">0.00</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">📍 Y位置 (m)</span>
+                        <span class="status-value" id="yValue">0.00</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">🧭 角度 (°)</span>
+                        <span class="status-value" id="thetaValue">0.0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">🏃 线速度 (m/s)</span>
+                        <span class="status-value" id="linearValue">0.00</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">🔄 角速度 (°/s)</span>
+                        <span class="status-value" id="angularValue">0.0</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <button class="init-btn" id="initBtn">初始化机器人</button>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
